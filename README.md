@@ -1,20 +1,20 @@
-# System Programming — C Language
+# Системное программирование — язык Си
 
-Student: Nikita Silantev  
-Course: 305
+Студент: Силантев Никита  
+Группа: 305
 
-## Programs
+## Программы
 
-**Program1** — Basic C syntax  
-Linear input/output, if/else, switch, for/while loops, arrays, strings.
+**Program1** — Базовый синтаксис Си  
+Линейный ввод-вывод, ветвление if/else и switch, циклы for и while, массивы, строки.
 
-**Program2** — Pointers, structs, files  
-Pointers and double pointers, structures, functions with function pointer parameters, read/write text files.
+**Program2** — Указатели, структуры, файлы  
+Указатели и двойные указатели, структуры, функции с указателями на функции как параметры, чтение и запись текстового файла.
 
-**Program3** — Applied programming  
-Dynamic memory (malloc/realloc/free), binary file read/write, function pointer chains.
+**Program3** — Прикладное программирование  
+Динамическая память (malloc/realloc/free), бинарный файл (fwrite/fread), цепочки указателей на функции.
 
-## Build
+## Сборка
 
 ```bash
 cd SystemPrograms/Program1
