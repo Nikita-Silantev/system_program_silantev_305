@@ -1,0 +1,13 @@
+# compiled binaries
+Program1/prog
+Program2/prog
+Program3/prog
+*.o
+*.dSYM/
+
+# text/binary output files
+*.txt
+*.bin
+
+# VS Code
+.vscode/
