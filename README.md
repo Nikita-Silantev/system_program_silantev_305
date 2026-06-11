@@ -14,9 +14,23 @@
 **Program3** — Прикладное программирование  
 Динамическая память (malloc/realloc/free), бинарный файл (fwrite/fread), цепочки указателей на функции.
 
+**Program4** — Структуры данных и библиотеки  
+Стек, очередь, связный список. Сборка статической (.a) и динамической (.so/.dylib) библиотеки через Makefile. Линковка во время выполнения через dlopen/dlsym/dlclose.
+
+**Program5** — Файлы, каталоги и рекурсия  
+Работа с файловыми дескрипторами (open/read/write/close), произвольный доступ через lseek, дублирование дескриптора через dup. Рекурсия: факториал, числа Фибоначчи, рекурсивная сумма массива. Работа с каталогами: opendir/readdir/closedir, рекурсивный обход и подсчёт файлов.
+
 ## Сборка
 
+**Program1–3, Program5** — один файл:
 ```bash
-cd SystemPrograms/Program1
+cd SystemPrograms/ProgramN
 clang -o prog main.c && ./prog
+```
+
+**Program4** — несколько файлов, Makefile:
+```bash
+cd SystemPrograms/Program4
+make
+./program4_static
 ```
