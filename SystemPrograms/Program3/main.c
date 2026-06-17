@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// структура для записи в бинарный файл
 struct Record {
     int id;
     char title[30];
@@ -20,14 +21,18 @@ void halve_value(struct Record *r) {
     r->value /= 2.0;
 }
 
+// typedef для удобства: RecordFunc — это указатель на функцию, принимающую Record*
 typedef void (*RecordFunc)(struct Record *);
 
+// применяет функцию fn к каждому элементу массива
 void apply_all(struct Record *arr, int count, RecordFunc fn) {
     for (int i = 0; i < count; i++) {
         fn(&arr[i]);
     }
 }
 
+// трёхуровневая цепочка: принимает transform и show,
+// show сама принимает transform и printer
 void apply_then_show(struct Record *r,
                      RecordFunc transform,
                      void (*show)(struct Record *, RecordFunc, void (*)(struct Record *)),
@@ -35,11 +40,14 @@ void apply_then_show(struct Record *r,
     show(r, transform, printer);
 }
 
+// вызывает fn, потом printer — промежуточное звено цепочки
 void run_and_print(struct Record *r, RecordFunc fn, void (*printer)(struct Record *)) {
     fn(r);
     printer(r);
 }
 
+// записывает массив структур в бинарный файл
+// сначала пишем количество записей, потом сами данные блоком
 void write_binary(struct Record *arr, int count, const char *filename) {
     FILE *f = fopen(filename, "wb");
     if (f == NULL) {
@@ -52,6 +60,8 @@ void write_binary(struct Record *arr, int count, const char *filename) {
     printf("Written %d records to %s\n", count, filename);
 }
 
+// читает бинарный файл и возвращает выделенный через malloc массив
+// вызывающий код обязан сам освободить память
 struct Record *read_binary(const char *filename, int *count) {
     FILE *f = fopen(filename, "rb");
     if (f == NULL) {
@@ -71,8 +81,11 @@ struct Record *read_binary(const char *filename, int *count) {
 }
 
 int main(void) {
+    // --- динамическая память ---
     printf("--- Memory: malloc / realloc / free ---\n");
     int n = 4;
+
+    // выделяем память под массив из 4 int
     int *arr = malloc(sizeof(int) * n);
     if (arr == NULL) {
         printf("malloc failed\n");
@@ -85,6 +98,8 @@ int main(void) {
     for (int i = 0; i < n; i++) printf("%d ", arr[i]);
     printf("\n");
 
+    // расширяем массив до 7 элементов через realloc
+    // realloc может переместить данные в новое место, поэтому сохраняем в tmp
     n = 7;
     int *tmp = realloc(arr, sizeof(int) * n);
     if (tmp == NULL) {
@@ -99,9 +114,11 @@ int main(void) {
     printf("After realloc (%d): ", n);
     for (int i = 0; i < n; i++) printf("%d ", arr[i]);
     printf("\n");
-    free(arr);
+
+    free(arr);   // освобождаем память
     printf("Memory freed ok\n");
 
+    // --- записи в динамической памяти ---
     printf("\n--- Records ---\n");
     int count = 3;
     struct Record *records = malloc(sizeof(struct Record) * count);
@@ -129,14 +146,18 @@ int main(void) {
     apply_all(records, count, double_value);
     apply_all(records, count, print_record);
 
+    // --- трёхуровневая цепочка указателей на функции ---
     printf("\n--- Function pointer chain ---\n");
     printf("Halve record[0] via 3-level chain:\n");
+    // apply_then_show -> run_and_print -> print_record
     apply_then_show(&records[0], halve_value, run_and_print, print_record);
 
+    // --- бинарный файл ---
     printf("\n--- Binary file ---\n");
     write_binary(records, count, "records.bin");
-    free(records);
+    free(records);   // данные уже в файле, освобождаем
 
+    // читаем обратно — read_binary сам выделяет память
     int loaded_count = 0;
     struct Record *loaded = read_binary("records.bin", &loaded_count);
     if (loaded != NULL) {

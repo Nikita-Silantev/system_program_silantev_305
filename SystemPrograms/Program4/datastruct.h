@@ -1,11 +1,14 @@
 #ifndef DATASTRUCT_H
 #define DATASTRUCT_H
 
+// ---- стек (LIFO) ----
+// узел стека хранит данные и указатель на следующий узел
 typedef struct StackNode {
     int data;
     struct StackNode *next;
 } StackNode;
 
+// стек: указатель на вершину и текущий размер
 typedef struct {
     StackNode *top;
     int size;
@@ -18,11 +21,13 @@ int  stack_peek(Stack *s);
 int  stack_empty(Stack *s);
 void stack_free(Stack *s);
 
+// ---- очередь (FIFO) ----
 typedef struct QueueNode {
     int data;
     struct QueueNode *next;
 } QueueNode;
 
+// очередь: указатель на голову (front) и хвост (back)
 typedef struct {
     QueueNode *front;
     QueueNode *back;
@@ -35,6 +40,7 @@ int  queue_pop(Queue *q);
 int  queue_empty(Queue *q);
 void queue_free(Queue *q);
 
+// ---- односвязный список ----
 typedef struct ListNode {
     int data;
     struct ListNode *next;

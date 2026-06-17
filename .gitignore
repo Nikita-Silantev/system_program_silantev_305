@@ -1,13 +1,26 @@
-# compiled binaries
-Program1/prog
-Program2/prog
-Program3/prog
-*.o
+# скомпилированные бинари
+main
+prog
+program4_static
+program4_dynamic
+program5
+program6
+
+# отладочные символы clang
 *.dSYM/
 
-# text/binary output files
+# объектные файлы и библиотеки (артефакты сборки Program4)
+*.o
+*.a
+*.dylib
+*.so
+
+# файлы создаваемые программами при запуске
 *.txt
 *.bin
+
+# временные файлы
+stZmbj1J
 
 # VS Code
 .vscode/
